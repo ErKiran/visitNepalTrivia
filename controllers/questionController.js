@@ -30,7 +30,7 @@ async function createQuestion(req) {
 
 async function findQuestion(req) {
     try {
-        const fetchQuestion = await Question.find({
+        const fetchQuestion = await Question.findOne({
             question: req.body.question
         })
         return fetchQuestion;

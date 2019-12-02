@@ -12,8 +12,8 @@ module.exports = (sequelize, type) => {
         },
         is_correct: {
             type: type.BOOLEAN,
-            allowNull: false,
-            default: false
+            allowNull: true,
+            defaultValue: false
         },
         question_id: {
             type: type.INTEGER,

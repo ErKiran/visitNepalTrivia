@@ -27,10 +27,28 @@ router.post('/create_question', async (req, res) => {
 
 router.post('/create_options', async (req, res) => {
     try {
-        const options = await createOptions(req)
+        const options = await createOptions(req);
+        console.log(options)
     }
     catch (e) {
         throw new Error(`Error while creating options ${e}`)
+    }
+})
+
+router.post('/create_quiz', async (req, res) => {
+    try {
+        const categories = await createCategories(req);
+        const questions = await createQuestion(req);
+        const options = await createOptions(req);
+
+        res.json({
+            categories,
+            questions,
+            options
+        })
+    }
+    catch (e) {
+        throw new Error(`Error while creating quiz ${e}`)
     }
 })
 

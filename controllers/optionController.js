@@ -1,4 +1,4 @@
-const Options = require('../orm');
+const { Options } = require('../orm');
 const { createQuestion, findQuestion } = require('./questionController');
 
 async function createOptions(req) {
@@ -8,7 +8,20 @@ async function createOptions(req) {
             await createQuestion(req)
         }
         const question = await findQuestion(req);
-        console.log(question)
+        const { option } = req.body;
+        const optionObj = {
+            question_id: question.dataValues.id,
+            option: option
+        }
+
+        const optionCreated = await Options.findOrCreate({
+            where: {
+                question_id: question.dataValues.id,
+                option: option
+            },
+            defaults: optionObj
+        });
+        return optionCreated;
 
     }
     catch (e) {
