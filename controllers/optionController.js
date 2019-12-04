@@ -8,10 +8,11 @@ async function createOptions(req) {
             await createQuestion(req)
         }
         const question = await findQuestion(req);
-        const { option } = req.body;
+        const { option, is_correct } = req.body;
         const optionObj = {
             question_id: question.dataValues.id,
-            option: option
+            option: option,
+            is_correct: is_correct
         }
 
         const optionCreated = await Options.findOrCreate({

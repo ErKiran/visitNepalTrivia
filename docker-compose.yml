@@ -1,12 +1,19 @@
 version: '3'
 services: 
-  node-app:
-   build: .
-   ports: 
-    - 5000:3000
-  database:
+  mysql:
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: "password"
     ports:
-     - "3306:3306"
+     - "3307:3306"
+    expose:
+      - 3307 
+  node-app:
+   build: .
+   links:
+      - mysql
+   depends_on:
+      - mysql
+   ports: 
+    - 5000:3000
+ 

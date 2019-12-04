@@ -40,7 +40,34 @@ async function findQuestion(req) {
     }
 }
 
+async function getAllQuestion() {
+    try {
+        const allQuestions = await Question.findAll({});
+        return allQuestions;
+    } catch (e) {
+        throw new Error(`Error while fetching all questions ${e}`)
+    }
+}
+
+async function updateQuestion(req) {
+    try {
+        if (!req.query.id) {
+            throw new Error(`Id is required to update question`)
+        }
+        const questionObject = {
+            question: req.body.question
+        }
+        const updated = await Question.update(questionObject, { where: { id: req.query.id } });
+        return updated
+
+    } catch (e) {
+        throw new Error(`Error while updating questions ${e}`)
+    }
+}
+
 module.exports = {
     createQuestion,
-    findQuestion
+    findQuestion,
+    updateQuestion,
+    getAllQuestion
 }

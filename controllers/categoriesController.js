@@ -24,6 +24,9 @@ async function createCategories(req) {
 
 async function findCategories(cat) {
     try {
+        if (!cat) {
+            throw new Error(`Categories is required`)
+        }
         const category = await Categories.findOne({
             where: { categories: cat }
         })
