@@ -1,4 +1,4 @@
-const { Question } = require('../orm');
+const { Question, Categories } = require('../orm');
 const { findCategories, createCategories } = require('./categoriesController')
 
 async function createQuestion(req) {
@@ -42,7 +42,11 @@ async function findQuestion(req) {
 
 async function getAllQuestion() {
     try {
-        const allQuestions = await Question.findAll({});
+        const allQuestions = await Question.findAll({
+            include: [{
+                model: Categories
+            }]
+        });
         return allQuestions;
     } catch (e) {
         throw new Error(`Error while fetching all questions ${e}`)

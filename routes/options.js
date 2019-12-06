@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { createOptions } = require('../controllers/optionController')
+const { createOptions } = require('../controllers/optionController');
 
 router.post('/create_options', async (req, res) => {
     try {

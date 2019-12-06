@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const { createQuestion, updateQuestion } = require('../controllers/questionController');
+const { createQuestion, updateQuestion, getAllQuestion } = require('../controllers/questionController');
 const router = Router();
 
 router.post('/create_question', async (req, res) => {
@@ -9,6 +9,15 @@ router.post('/create_question', async (req, res) => {
     }
     catch (e) {
         throw new Error(`Error while creating question ${e}`)
+    }
+})
+
+router.get('/get_all_questions', async (req, res) => {
+    try {
+        const allQuestion = await getAllQuestion();
+        res.json(allQuestion)
+    } catch (e) {
+        throw new Error(`Error while getting all question ${e}`)
     }
 })
 

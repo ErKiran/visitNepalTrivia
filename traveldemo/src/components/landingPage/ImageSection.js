@@ -17,9 +17,11 @@ class ImageSection extends Component {
                         <h3 className="mbr-section-sub-title pb-4 mbr-normal mbr-fonts-style align-left display-4">
                             Play the Fun Trivia
                         </h3>
+                        <div className="mbr-section-sub-title pb-4 mbr-normal mbr-fonts-style align-left display-4"><a className="btn btn-md btn-primary display-4" href="https://visitnepal2020.com"><span className="mbri-arrow-next mbr-iconfont mbr-iconfont-btn"></span>
+                            Play Now</a></div>
                     </div>
                 </section>
-            </div>
+            </div >
         );
     }
 }

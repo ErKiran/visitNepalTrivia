@@ -8,7 +8,7 @@ const TriviaItems = (props) => {
                     <div className="price-box">
                         <h5 className="price mbr-fonts-style mbr-bold display-4">{props.price}</h5>
                     </div>
-                    <img src={props.image} title="" />
+                    <img src={props.image} title="" alt="" />
                 </div>
                 <div className="card-box">
                     <h4 className="card-title mbr-fonts-style pb-1 mbr-bold display-5">{props.title}</h4>

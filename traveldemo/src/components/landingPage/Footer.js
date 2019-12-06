@@ -37,27 +37,27 @@ const Footer = () => {
                                 </div></div>
                             <div className="social-list py-4">
                                 <div className="soc-item">
-                                    <a href="https://twitter.com/mobirise" target="_blank">
+                                    <a href="https://twitter.com/mobirise">
                                         <div className="mbr-iconfont mbr-iconfont-social socicon-twitter socicon" style={{ color: 'rgb(255,255,255)' }} media-simple="true"></div>
                                     </a>
                                 </div>
                                 <div className="soc-item">
-                                    <a href="https://www.facebook.com/pages/Mobirise/1616226671953247" target="_blank">
+                                    <a href="https://www.facebook.com/pages/Mobirise/1616226671953247">
                                         <div className="mbr-iconfont mbr-iconfont-social socicon-facebook socicon" style={{ color: 'rgb(255,255,255)' }} media-simple="true"></div>
                                     </a>
                                 </div>
                                 <div className="soc-item">
-                                    <a href="https://plus.google.com/u/0/+Mobirise" target="_blank">
+                                    <a href="https://plus.google.com/u/0/+Mobirise">
                                         <div className="mbr-iconfont mbr-iconfont-social socicon-googleplus socicon" style={{ color: 'rgb(255,255,255)' }} media-simple="true"></div>
                                     </a>
                                 </div>
                                 <div className="soc-item">
-                                    <a href="https://instagram.com/mobirise" target="_blank">
+                                    <a href="https://instagram.com/mobirise">
                                         <div className="mbr-iconfont mbr-iconfont-social socicon-skype socicon" style={{ color: 'rgb(255,255,255)' }} media-simple="true"></div>
                                     </a>
                                 </div>
                                 <div className="soc-item">
-                                    <a href="https://instagram.com/mobirise" target="_blank">
+                                    <a href="https://instagram.com/mobirise">
                                         <div className="mbr-iconfont mbr-iconfont-social socicon-instagram socicon" style={{ color: 'rgb(255,255,255)' }} media-simple="true"></div>
                                     </a>
                                 </div>

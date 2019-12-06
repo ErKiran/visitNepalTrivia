@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-    return sequelize.define('questions', {
+    const questions = sequelize.define('questions', {
         id: {
             type: type.INTEGER,
             primaryKey: true,
@@ -18,4 +18,18 @@ module.exports = (sequelize, type) => {
             }
         }
     })
+
+    questions.associate = (models) => {
+        models.questions.hasOne(models.categories, {
+            foreignKey: {
+                allowNull: false,
+                required: true,
+                fieldName: 'categories_id'
+            },
+            targetkey: 'id',
+            onDelete: 'CASCADE'
+        })
+    }
+
+    return questions;
 }
