@@ -4,4 +4,4 @@ const Options = require('./options');
 
 
 Question.hasOne(Categories);
-Question.hasMany(Options)
+Question.hasMany(Options);

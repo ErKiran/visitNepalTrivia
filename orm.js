@@ -3,7 +3,6 @@ const CategoriesModel = require('./models/categories');
 const QuestionModel = require('./models/question');
 const OptionsModel = require('./models/options');
 
-
 const sequelize = new Sequelize('SQLQUIZ', 'root', 'password', {
     host: 'localhost',
     dialect: 'mysql',
@@ -20,6 +19,13 @@ const Categories = CategoriesModel(sequelize, Sequelize);
 const Question = QuestionModel(sequelize, Sequelize);
 const Options = OptionsModel(sequelize, Sequelize);
 
+Question.hasOne(Categories, {
+    foreignKey: 'id',
+    targetKey: 'categories_id'
+});
+
+Question.hasMany(Options);
+
 sequelize.sync({ force: false })
     .then(() => {
         console.log(`Database and Table crated`)
@@ -29,4 +35,4 @@ module.exports = {
     Categories,
     Question,
     Options
-}    
+}

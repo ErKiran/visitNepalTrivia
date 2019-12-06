@@ -37,7 +37,22 @@ async function findCategories(cat) {
     }
 }
 
+async function getAllCategories() {
+    try {
+        const categories = await Categories.findAll({});
+        let cats = []
+        categories.map(category => {
+            cats.push(category.categories)
+        })
+        return cats;
+    }
+    catch (e) {
+        throw new Error(`Error while getting all the categories ${e}`)
+    }
+}
+
 module.exports = {
     createCategories,
-    findCategories
+    findCategories,
+    getAllCategories
 }

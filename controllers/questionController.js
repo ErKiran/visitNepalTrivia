@@ -1,5 +1,6 @@
 const { Question, Categories } = require('../orm');
-const { findCategories, createCategories } = require('./categoriesController')
+const { findCategories, createCategories } = require('./categoriesController');
+const { } = require('./optionController');
 
 async function createQuestion(req) {
     try {
@@ -47,7 +48,19 @@ async function getAllQuestion() {
                 model: Categories
             }]
         });
-        return allQuestions;
+        const questionsAndCategories = []
+        allQuestions.map(questions => {
+            try {
+                questionsAndCategories.push({
+                    question: questions.question,
+                    categories: questions.category.categories
+                })
+            }
+            catch (e) {
+                throw new Error(`Error while creating return Object ${e}`)
+            }
+        })
+        return questionsAndCategories;
     } catch (e) {
         throw new Error(`Error while fetching all questions ${e}`)
     }

@@ -23,13 +23,24 @@ async function createOptions(req) {
             defaults: optionObj
         });
         return optionCreated;
-
     }
     catch (e) {
         throw new Error(`Error while Creating Options ${e}`)
     }
 }
 
+
+async function getOptions() {
+    try {
+        const allOptions = await Options.findAll({});
+        return allOptions;
+    }
+    catch (e) {
+        throw new Error(`Error while getting Options ${e}`)
+    }
+}
+
 module.exports = {
-    createOptions
+    createOptions,
+    getOptions
 }

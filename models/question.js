@@ -12,24 +12,11 @@ module.exports = (sequelize, type) => {
         },
         categories_id: {
             type: type.INTEGER,
-            references: {
+            /*references: {
                 model: 'categories',
                 key: 'id'
-            }
+            }*/
         }
     })
-
-    questions.associate = (models) => {
-        models.questions.hasOne(models.categories, {
-            foreignKey: {
-                allowNull: false,
-                required: true,
-                fieldName: 'categories_id'
-            },
-            targetkey: 'id',
-            onDelete: 'CASCADE'
-        })
-    }
-
     return questions;
 }

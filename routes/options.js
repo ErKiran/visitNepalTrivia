@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { createOptions } = require('../controllers/optionController');
+const { createOptions, getOptions } = require('../controllers/optionController');
 
 router.post('/create_options', async (req, res) => {
     try {
@@ -9,6 +9,16 @@ router.post('/create_options', async (req, res) => {
     }
     catch (e) {
         throw new Error(`Error while creating options ${e}`)
+    }
+})
+
+router.get('/get_options', async (req, res) => {
+    try {
+        const options = await getOptions();
+        res.json(options)
+    }
+    catch (e) {
+        throw new Error(`Error while getting options ${e}`)
     }
 })
 
