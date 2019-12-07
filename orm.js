@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const CategoriesModel = require('./models/categories');
 const QuestionModel = require('./models/question');
 const OptionsModel = require('./models/options');
+const DescriptionModel = require('./models/description');
 
 const sequelize = new Sequelize('SQLQUIZ', 'root', 'password', {
     host: 'localhost',
@@ -15,16 +16,24 @@ const sequelize = new Sequelize('SQLQUIZ', 'root', 'password', {
     }
 })
 
+
 const Categories = CategoriesModel(sequelize, Sequelize);
 const Question = QuestionModel(sequelize, Sequelize);
 const Options = OptionsModel(sequelize, Sequelize);
+const Description = DescriptionModel(sequelize, Sequelize);
 
-Question.hasOne(Categories, {
-    foreignKey: 'id',
-    targetKey: 'categories_id'
+Question.belongsTo(Categories, {
+    foreignKey: 'categories_id',
+    targetKey: 'id'
 });
 
-Question.hasMany(Options);
+Question.hasMany(Description)
+
+Question.hasMany(Options, {
+    foreignKey: 'id',
+    targetKey: 'question_id',
+    onDelete: 'CASCADE'
+});
 
 sequelize.sync({ force: false })
     .then(() => {
@@ -34,5 +43,7 @@ sequelize.sync({ force: false })
 module.exports = {
     Categories,
     Question,
-    Options
+    Options,
+    Description,
+    sequelize
 }

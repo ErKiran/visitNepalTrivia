@@ -16,11 +16,7 @@ module.exports = (sequelize, type) => {
             defaultValue: false
         },
         question_id: {
-            type: type.INTEGER,
-            references: {
-                model: 'questions',
-                key: 'id'
-            }
+            type: type.INTEGER
         }
     })
 

@@ -12,10 +12,7 @@ module.exports = (sequelize, type) => {
         },
         categories_id: {
             type: type.INTEGER,
-            /*references: {
-                model: 'categories',
-                key: 'id'
-            }*/
+            allowNull: false
         }
     })
     return questions;

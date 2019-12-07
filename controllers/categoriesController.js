@@ -1,18 +1,10 @@
 const { Categories } = require('../orm');
 
-async function createCategories(req) {
+async function createCategories(cat) {
     try {
-        if (!(req.body).hasOwnProperty('categories')) {
-            throw new Error(`Categories is required while inserting into DB`);
-        }
-
-        if ((req.body.categories.length) === 0) {
-            throw new Error(`Categories is required`);
-        }
-
         const newCategories = await Categories.findOrCreate({
             where: {
-                categories: req.body.categories
+                categories: cat
             }
         })
         return newCategories;
@@ -51,8 +43,23 @@ async function getAllCategories() {
     }
 }
 
+
+async function createCategoriesIfNotExist(categories) {
+    try {
+        const checkIfExistsCategories = await findCategories(categories);
+        if (checkIfExistsCategories === null) {
+            await createCategories(categories);
+        }
+        const category = await findCategories(categories);
+        return category
+    }
+    catch (e) {
+        throw new Error(`Error while creating new Categories for the questions ${e}`)
+    }
+}
+
 module.exports = {
+    getAllCategories,
     createCategories,
-    findCategories,
-    getAllCategories
+    createCategoriesIfNotExist
 }

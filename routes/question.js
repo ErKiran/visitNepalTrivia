@@ -1,10 +1,18 @@
 const { Router } = require('express')
-const { createQuestion, updateQuestion, getAllQuestion } = require('../controllers/questionController');
+const {
+    createQuestion,
+    updateQuestion,
+    getAllQuestion,
+    deleteQuestion
+} = require('../controllers/questionController');
 const router = Router();
 
 router.post('/create_question', async (req, res) => {
     try {
-        const questions = await createQuestion(req)
+        const questions = await createQuestion(req);
+        if (questions.status === 400) {
+            return res.status(400).json(questions.errors)
+        }
         res.json(questions)
     }
     catch (e) {
@@ -21,9 +29,25 @@ router.get('/get_all_questions', async (req, res) => {
     }
 })
 
-router.patch('/:question_id', async (req, res) => {
-    const updated = await updateQuestion(req);
-    res.json(updated)
+router.patch('/update/:question_id', async (req, res) => {
+    try {
+        const updated = await updateQuestion(req);
+        res.json(updated);
+    }
+    catch (e) {
+        throw new Error(`Error while updating Question ${e}`)
+    }
+})
+
+router.delete('/delete/:question_id', async (req, res) => {
+    try {
+        const { question_id } = req.params;
+        const deleted = await deleteQuestion(question_id);
+        res.status(deleted.status).json(deleted);
+    }
+    catch (e) {
+        throw new Error(`Error while deleting Question ${e}`)
+    }
 })
 
 module.exports = router

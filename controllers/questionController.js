@@ -1,14 +1,20 @@
-const { Question, Categories } = require('../orm');
-const { findCategories, createCategories } = require('./categoriesController');
-const { } = require('./optionController');
+const { Question, Categories, Options } = require('../orm');
+const { createCategoriesIfNotExist } = require('./categoriesController');
+const {
+    validateCreateQuestion,
+    validateUpdateQuestion
+} = require('../validators/questionValidator');
 
 async function createQuestion(req) {
     try {
-        const checkIfExistsCategories = await findCategories(req.body.categories);
-        if (checkIfExistsCategories === null) {
-            await createCategories(req);
+        const { errors, isValid } = validateCreateQuestion(req.body);
+        if (!isValid) {
+            return {
+                errors,
+                status: 400
+            }
         }
-        const categories = await findCategories(req.body.categories)
+        const categories = await createCategoriesIfNotExist(req.body.categories)
         const categoriesId = categories.dataValues.id;
         const { question } = req.body;
         const questionObj = {
@@ -44,16 +50,29 @@ async function findQuestion(req) {
 async function getAllQuestion() {
     try {
         const allQuestions = await Question.findAll({
-            include: [{
-                model: Categories
-            }]
+            include: [
+                {
+                    model: Categories
+                },
+                {
+                    model: Options
+                }
+            ]
         });
-        const questionsAndCategories = []
+        const questionsAndCategories = [];
+        const optionsAndAnswer = []
         allQuestions.map(questions => {
+            questions.options.map(i => {
+                optionsAndAnswer.push({
+                    option: i.option
+                })
+            })
             try {
                 questionsAndCategories.push({
+                    id: questions.id,
                     question: questions.question,
-                    categories: questions.category.categories
+                    categories: questions.category.categories,
+                    options: optionsAndAnswer
                 })
             }
             catch (e) {
@@ -68,13 +87,25 @@ async function getAllQuestion() {
 
 async function updateQuestion(req) {
     try {
-        if (!req.query.id) {
-            throw new Error(`Id is required to update question`)
+        const { errors, isValid } = validateUpdateQuestion(req.params, req.body);
+        if (!isValid) {
+            return {
+                errors,
+                status: 400
+            }
         }
+        const getCategoriesId = await createCategoriesIfNotExist(req.body.categories);
+        const catId = getCategoriesId.id
         const questionObject = {
-            question: req.body.question
+            question: req.body.question,
+            categories_id: catId
         }
-        const updated = await Question.update(questionObject, { where: { id: req.query.id } });
+        const updated = await Question.update(questionObject, { where: { id: req.params.question_id } });
+
+        if (updated[0] === 1) {
+            return getUpdatedQuestion(req.params.question_id)
+        }
+
         return updated
 
     } catch (e) {
@@ -82,9 +113,46 @@ async function updateQuestion(req) {
     }
 }
 
+async function getUpdatedQuestion(id) {
+    try {
+        const updatedQuestion = await Question.findOne({ id: id });
+        console.log('UpdatedQuestion', updatedQuestion)
+        return updatedQuestion
+    }
+    catch (e) {
+        throw new Error(`Error while getting updated question ${e}`)
+    }
+}
+
+async function deleteQuestion(id) {
+    try {
+        if (!id) {
+            return {
+                info: 'Id is required to delete Question',
+                status: 400
+            }
+        }
+        const delQuestion = await Question.destroy({ where: { id: id } });
+        if (delQuestion === 1) {
+            return {
+                info: `Question is deleted sucessfully`,
+                status: 200
+            }
+        }
+        return {
+            info: `Question cann't be deleted`,
+            status: 204
+        }
+    }
+    catch (e) {
+        throw new Error(`Error while deleting Questions ${e}`)
+    }
+}
+
 module.exports = {
     createQuestion,
     findQuestion,
     updateQuestion,
-    getAllQuestion
+    getAllQuestion,
+    deleteQuestion
 }

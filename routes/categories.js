@@ -5,7 +5,7 @@ const { createCategories, getAllCategories } = require('../controllers/categorie
 
 router.post('/create_categories', async (req, res) => {
     try {
-        const categories = await createCategories(req)
+        const categories = await createCategories(req.body.categories)
         res.json(categories)
     }
     catch (e) {
