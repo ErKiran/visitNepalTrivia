@@ -1,6 +1,10 @@
 const { Router } = require('express');
 const router = Router();
-const { createCategories, getAllCategories } = require('../controllers/categoriesController');
+const {
+    createCategories,
+    getAllCategories,
+    updateCategories
+} = require('../controllers/categoriesController');
 
 
 router.post('/create_categories', async (req, res) => {
@@ -20,6 +24,16 @@ router.get('/all_categories', async (req, res) => {
     }
     catch (e) {
         throw new Error(`Error while getting all the categories ${e}`)
+    }
+})
+
+router.patch('/categories/:categories_id', async (req, res) => {
+    try {
+        const updated = await updateCategories();
+        res.json(updated)
+    }
+    catch (e) {
+        throw new Error(`Error while updating categories ${e}`)
     }
 })
 

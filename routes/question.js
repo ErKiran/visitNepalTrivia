@@ -3,7 +3,8 @@ const {
     createQuestion,
     updateQuestion,
     getAllQuestion,
-    deleteQuestion
+    deleteQuestion,
+    getQuestions
 } = require('../controllers/questionController');
 const router = Router();
 
@@ -20,9 +21,18 @@ router.post('/create_question', async (req, res) => {
     }
 })
 
-router.get('/get_all_questions', async (req, res) => {
+router.get('/get_all_question_details', async (req, res) => {
     try {
         const allQuestion = await getAllQuestion();
+        res.json(allQuestion)
+    } catch (e) {
+        throw new Error(`Error while getting all question ${e}`)
+    }
+})
+
+router.get('/get_all_question', async (req, res) => {
+    try {
+        const allQuestion = await getQuestions()
         res.json(allQuestion)
     } catch (e) {
         throw new Error(`Error while getting all question ${e}`)
@@ -32,6 +42,9 @@ router.get('/get_all_questions', async (req, res) => {
 router.patch('/update/:question_id', async (req, res) => {
     try {
         const updated = await updateQuestion(req);
+        if (updated.status === 400) {
+            return res.status(updated.status).json(updated)
+        }
         res.json(updated);
     }
     catch (e) {

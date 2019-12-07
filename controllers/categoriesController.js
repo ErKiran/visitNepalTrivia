@@ -1,4 +1,5 @@
 const { Categories } = require('../orm');
+const { validateCreateCategories } = require('../validators/categoriesController');
 
 async function createCategories(cat) {
     try {
@@ -43,6 +44,15 @@ async function getAllCategories() {
     }
 }
 
+async function updateCategories() {
+    try {
+
+    }
+    catch (e) {
+        throw new Error(`Error while updating Categories ${e}`)
+    }
+}
+
 
 async function createCategoriesIfNotExist(categories) {
     try {
@@ -61,5 +71,6 @@ async function createCategoriesIfNotExist(categories) {
 module.exports = {
     getAllCategories,
     createCategories,
+    updateCategories,
     createCategoriesIfNotExist
 }

@@ -5,6 +5,9 @@ const { createOptions, getOptions } = require('../controllers/optionController')
 router.post('/create_options', async (req, res) => {
     try {
         const options = await createOptions(req);
+        if (options.status === 404) {
+            return res.status(options.status).json(options)
+        }
         res.json(options[0].dataValues);
     }
     catch (e) {

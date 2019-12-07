@@ -35,15 +35,45 @@ async function createQuestion(req) {
     }
 }
 
+async function findQuestionById(id) {
+    try {
+        const question = await Question.findOne({
+            where: {
+                id: id
+            }
+        })
+        return question
+    }
+    catch (e) {
+        throw new Error(`Error while getting Question By Id ${e}`)
+    }
+}
+
 async function findQuestion(req) {
     try {
+        const { question } = req.body;
+        if (!question) {
+            throw new Error(`Can find the Question Details for the null question`)
+        }
         const fetchQuestion = await Question.findOne({
-            question: req.body.question
+            where: {
+                question: question
+            }
         })
         return fetchQuestion;
     }
     catch (e) {
         throw new Error(`Error while fetching question ${e}`)
+    }
+}
+
+async function getQuestions() {
+    try {
+        const allQuestions = await Question.findAll({});
+        return allQuestions
+    }
+    catch (e) {
+        throw new Error(`Error while getting all the questions ${e}`)
     }
 }
 
@@ -54,25 +84,25 @@ async function getAllQuestion() {
                 {
                     model: Categories
                 },
-                {
-                    model: Options
-                }
+                /* {
+                     model: Options
+                 } */
             ]
         });
         const questionsAndCategories = [];
         const optionsAndAnswer = []
         allQuestions.map(questions => {
-            questions.options.map(i => {
+            /*questions.options.map(i => {
                 optionsAndAnswer.push({
                     option: i.option
                 })
-            })
+            })*/
             try {
                 questionsAndCategories.push({
                     id: questions.id,
                     question: questions.question,
                     categories: questions.category.categories,
-                    options: optionsAndAnswer
+                    //options: optionsAndAnswer
                 })
             }
             catch (e) {
@@ -106,6 +136,12 @@ async function updateQuestion(req) {
             return getUpdatedQuestion(req.params.question_id)
         }
 
+        if (updated[0] === 0) {
+            return {
+                errors: `Can't update the Question Id: ${req.params.question_id}`,
+                status: 400
+            }
+        }
         return updated
 
     } catch (e) {
@@ -116,7 +152,6 @@ async function updateQuestion(req) {
 async function getUpdatedQuestion(id) {
     try {
         const updatedQuestion = await Question.findOne({ id: id });
-        console.log('UpdatedQuestion', updatedQuestion)
         return updatedQuestion
     }
     catch (e) {
@@ -154,5 +189,7 @@ module.exports = {
     findQuestion,
     updateQuestion,
     getAllQuestion,
-    deleteQuestion
+    deleteQuestion,
+    findQuestionById,
+    getQuestions
 }

@@ -10,6 +10,11 @@ module.exports = (sequelize, type) => {
             allowNull: false,
             required: true
         },
+        multiple_correct_options: {
+            type: type.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
         categories_id: {
             type: type.INTEGER,
             allowNull: false
