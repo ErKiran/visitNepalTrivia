@@ -1,4 +1,4 @@
-const { Question, Categories, Options } = require('../orm');
+const { Question } = require('../orm');
 const { createCategoriesIfNotExist } = require('./categoriesController');
 const {
     validateCreateQuestion,
@@ -77,44 +77,6 @@ async function getQuestions() {
     }
 }
 
-async function getAllQuestion() {
-    try {
-        const allQuestions = await Question.findAll({
-            include: [
-                {
-                    model: Categories
-                },
-                /* {
-                     model: Options
-                 } */
-            ]
-        });
-        const questionsAndCategories = [];
-        const optionsAndAnswer = []
-        allQuestions.map(questions => {
-            /*questions.options.map(i => {
-                optionsAndAnswer.push({
-                    option: i.option
-                })
-            })*/
-            try {
-                questionsAndCategories.push({
-                    id: questions.id,
-                    question: questions.question,
-                    categories: questions.category.categories,
-                    //options: optionsAndAnswer
-                })
-            }
-            catch (e) {
-                throw new Error(`Error while creating return Object ${e}`)
-            }
-        })
-        return questionsAndCategories;
-    } catch (e) {
-        throw new Error(`Error while fetching all questions ${e}`)
-    }
-}
-
 async function updateQuestion(req) {
     try {
         const { errors, isValid } = validateUpdateQuestion(req.params, req.body);
@@ -188,7 +150,6 @@ module.exports = {
     createQuestion,
     findQuestion,
     updateQuestion,
-    getAllQuestion,
     deleteQuestion,
     findQuestionById,
     getQuestions

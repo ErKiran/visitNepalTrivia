@@ -27,15 +27,19 @@ Question.belongsTo(Categories, {
     targetKey: 'id'
 });
 
-Question.hasMany(Description)
+Description.belongsTo(Question, {
+    foreignKey: 'question_id',
+    targetKey: 'id'
+})
 
 Options.belongsTo(Question, {
-    foreignKey: 'question_id',
-    targetKey: 'id',
-    onDelete: 'CASCADE'
+    foreignKey: 'questions_id',
+    targetKey: 'id'
 });
 
-sequelize.sync({ force: true })
+
+
+sequelize.sync({ force: false })
     .then(() => {
         console.log(`Database and Table crated`)
     })

@@ -1,6 +1,10 @@
 const { Router } = require('express');
 const router = Router();
-const { createOptions, getOptions } = require('../controllers/optionController');
+const {
+    createOptions,
+    getOptions,
+    updateOptions
+} = require('../controllers/optionController');
 
 router.post('/create_options', async (req, res) => {
     try {
@@ -22,6 +26,19 @@ router.get('/get_options', async (req, res) => {
     }
     catch (e) {
         throw new Error(`Error while getting options ${e}`)
+    }
+})
+
+router.patch('/options/:option_id', async (req, res) => {
+    try {
+        const updatedOptions = await updateOptions(req);
+        if (updatedOptions.status === 400) {
+            return res.status(400).json(updatedOptions)
+        }
+        res.json(updatedOptions)
+    }
+    catch (e) {
+        throw new Error(`Error while updating option_id: ${req.params.option_id} ${e}`)
     }
 })
 
