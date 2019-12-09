@@ -12,7 +12,8 @@ router.post('/create_options', async (req, res) => {
         if (options.status === 404) {
             return res.status(options.status).json(options)
         }
-        res.json(options[0].dataValues);
+        res.json(options)
+        // res.json(options[0].dataValues);
     }
     catch (e) {
         throw new Error(`Error while creating options ${e}`)

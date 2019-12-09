@@ -37,19 +37,76 @@ async function getAllCategories() {
         categories.map(category => {
             cats.push(category.categories)
         })
-        return cats;
+        return categories;
     }
     catch (e) {
         throw new Error(`Error while getting all the categories ${e}`)
     }
 }
 
-async function updateCategories() {
+async function updateCategories(req) {
     try {
+        const {categories} = req.body;
+        const {categories_id: id} = req.params;
+        const categoriesObj = {
+            categories
+        }
+        const updated = await Categories.update(categoriesObj,{
+            where:{
+                id
+            }
+        })
 
+        if(updated[0] === 1){
+            return await getCategoriesById(id)
+        }
+        return {
+            errors: `Can't update categories ${id}`,
+            status: 400
+        }
     }
     catch (e) {
         throw new Error(`Error while updating Categories ${e}`)
+    }
+}
+
+async function deleteCategories(req) {
+    try {
+       const {categories_id: id} = req.params;
+        if (!id) {
+            return {
+                info: 'Id is required to delete Categories',
+                status: 400
+            }
+        }
+        const delCategories = await Categories.destroy({ where: { id: id} });
+        if (delCategories === 1) {
+            return {
+                info: `Categories is deleted sucessfully`,
+                status: 200
+            }
+        }
+        return {
+            info: `Categories cann't be deleted`,
+            status: 204
+        }
+    }
+    catch (e) {
+        throw new Error(`Error while deleting Categoriess ${e}`)
+    }
+}
+
+async function getCategoriesById(id){
+    try{
+        const updated = await Categories.findOne({
+            where:{
+                id
+            }
+        })
+        return updated
+
+    }catch(e){
+        throw new Error(`Error while getting categories By ID ${e}`)
     }
 }
 
@@ -72,5 +129,6 @@ module.exports = {
     getAllCategories,
     createCategories,
     updateCategories,
+    deleteCategories,
     createCategoriesIfNotExist
 }

@@ -8,13 +8,6 @@ const {
 
 async function getQuizHiddenAnswer() {
     try {
-        const allQuestions = await Question.findAll({
-            include: [
-                {
-                    model: Categories
-                }
-            ]
-        });
         const allOptions = await Options.findAll({
             include: [
                 {
@@ -27,33 +20,31 @@ async function getQuizHiddenAnswer() {
                 }
             ]
         })
-        const questionsAndCategories = [];
-        //const optionsAndAnswer = []
-        allQuestions.map(questions => {
-            /*questions.options.map(i => {
-                optionsAndAnswer.push({
-                    option: i.option
-                })
-            })*/
-            try {
-                questionsAndCategories.push({
-                    id: questions.id,
-                    question: questions.question,
-                    categories: questions.category.categories,
-                    //options: optionsAndAnswer
-                })
-            }
-            catch (e) {
-                throw new Error(`Error while creating return Object ${e}`)
-            }
+        const hiddenQuiz = {};
+        const Quiz = [];
+        allOptions.map(i=>{
+            Quiz.push({
+                id: i.question.id,
+                question: i.question.question,
+                categories: i.question.category.categories,
+            })
+             hiddenQuiz.question = Quiz;
         })
-        //return questionsAndCategories;
-        return allOptions
+        return hiddenQuiz
 
     }
     catch (e) {
         throw new Error(`Error while getting Hidden Answer Quiz Description ${e}`)
     }
+}
+
+function checkIfElementExistsInArray(){
+try{
+
+}
+catch(e){
+    throw new Error(`Error while checking if element exists in array ${e}`)
+}
 }
 
 module.exports = {
