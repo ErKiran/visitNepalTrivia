@@ -1,4 +1,4 @@
-const { Description } = require('../orm');
+const { Description } = require("../orm");
 
 
 function uploadImage() {
@@ -6,6 +6,6 @@ function uploadImage() {
 
     }
     catch (e) {
-        throw new Error(`Error while uploading Image ${e}`)
+        throw new Error(`Error while uploading Image ${e}`);
     }
 }

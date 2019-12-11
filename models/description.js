@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-    const description = sequelize.define('descriptions', {
+    const description = sequelize.define("descriptions", {
         id: {
             type: type.INTEGER,
             primaryKey: true,
@@ -22,6 +22,6 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER,
             allowNull: false
         }
-    })
+    });
     return description;
-}
+};

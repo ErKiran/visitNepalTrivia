@@ -1,20 +1,20 @@
-const Sequelize = require('sequelize');
-const CategoriesModel = require('./models/categories');
-const QuestionModel = require('./models/question');
-const OptionsModel = require('./models/options');
-const DescriptionModel = require('./models/description');
+const Sequelize = require("sequelize");
+const CategoriesModel = require("./models/categories");
+const QuestionModel = require("./models/question");
+const OptionsModel = require("./models/options");
+const DescriptionModel = require("./models/description");
 
-const sequelize = new Sequelize('SQLQUIZ', 'root', 'password', {
-    host: 'localhost',
-    dialect: 'mysql',
-    port: '3307',
+const sequelize = new Sequelize("SQLQUIZ", "root", "password", {
+    host: "localhost",
+    dialect: "mysql",
+    port: "3306",
     pool: {
         max: 10,
         min: 0,
         acquire: 30000,
         idle: 10000
     }
-})
+});
 
 
 const Categories = CategoriesModel(sequelize, Sequelize);
@@ -23,26 +23,27 @@ const Options = OptionsModel(sequelize, Sequelize);
 const Description = DescriptionModel(sequelize, Sequelize);
 
 Question.belongsTo(Categories, {
-    foreignKey: 'categories_id',
-    targetKey: 'id'
+    foreignKey: "categories_id",
+    targetKey: "id"
 });
 
-Description.belongsTo(Question, {
-    foreignKey: 'question_id',
-    targetKey: 'id'
-})
+Question.hasOne(Description, {
+    foreignKey: "questions_id",
+    targetKey: "id"
+});
 
 Options.belongsTo(Question, {
-    foreignKey: 'questions_id',
-    targetKey: 'id'
+    foreignKey: "questions_id",
+    targetKey: "id"
 });
 
 
 
-sequelize.sync({ force: false })
+sequelize.sync({ force: true })
     .then(() => {
-        console.log(`Database and Table crated`)
-    })
+        // eslint-disable-next-line no-console
+        console.log("Database and Table crated");
+    });
 
 module.exports = {
     Categories,
@@ -50,4 +51,4 @@ module.exports = {
     Options,
     Description,
     sequelize
-}
+};

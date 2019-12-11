@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-    const questions = sequelize.define('questions', {
+    const questions = sequelize.define("questions", {
         id: {
             type: type.INTEGER,
             primaryKey: true,
@@ -19,6 +19,6 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER,
             allowNull: false
         }
-    })
+    });
     return questions;
-}
+};

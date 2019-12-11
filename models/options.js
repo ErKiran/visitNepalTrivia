@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-    const options = sequelize.define('options', {
+    const options = sequelize.define("options", {
         id: {
             type: type.INTEGER,
             primaryKey: true,
@@ -18,12 +18,12 @@ module.exports = (sequelize, type) => {
         questions_id: {
             type: type.INTEGER,
             references: {
-                model: 'questions',
-                key: 'id'
+                model: "questions",
+                key: "id"
             }
 
         }
-    })
+    });
 
     return options;
-}
+};
