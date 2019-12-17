@@ -8,8 +8,6 @@ services:
     expose:
       - "3306"
       - "33060"
-    volumes:
-      - ./data:/var/lib/mysql
   adminer:
     image: adminer
     restart: always
