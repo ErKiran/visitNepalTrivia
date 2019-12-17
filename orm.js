@@ -1,13 +1,15 @@
 const Sequelize = require("sequelize");
+
+const conf = require('./config');
 const CategoriesModel = require("./models/categories");
 const QuestionModel = require("./models/question");
 const OptionsModel = require("./models/options");
 const DescriptionModel = require("./models/description");
 
-const sequelize = new Sequelize("SQLQUIZ", "root", "password", {
-    host: "localhost",
-    dialect: "mysql",
-    port: "3306",
+ const sequelize = new Sequelize(conf.database, conf.user, conf.password, {
+    host: conf.host,
+    dialect: conf.dialect,
+    port: conf.port,
     pool: {
         max: 10,
         min: 0,

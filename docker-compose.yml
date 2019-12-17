@@ -1,19 +1,33 @@
-version: '3'
-services: 
+version: "3"
+services:
   mysql:
     image: mysql
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: "password"
-    ports:
-     - "3307:3306"
+      MYSQL_ROOT_PASSWORD: password
     expose:
-      - 3307 
+      - "3306"
+      - "33060"
+    volumes:
+      - ./data:/var/lib/mysql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
   node-app:
-   build: .
-   links:
+    container_name: TRAVIA_VISIT_NEPAL
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    links:
       - mysql
-   depends_on:
+    depends_on:
       - mysql
-   ports: 
-    - 5000:3000
- 
+    ports:
+      - 5000:3000
+    volumes:
+      - ./:/usr/app
+volumes:
+  mysql:
